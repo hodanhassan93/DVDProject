@@ -1,0 +1,35 @@
+package com.hodan.fileio;
+
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.util.LinkedList;
+
+public class DataFile {
+	public static void main(String[] args) throws Exception {
+		LinkedList<DVD> dVD=new LinkedList<DVD>();
+
+        dVD.add(new DVD("Home Alone", "16-11-1990", "PG", "Chris Coloumbus", "20th Century Fox", "4/5"));
+        dVD.add(new DVD("Home Alone 2", "20-11-1992", "PG", "Chris coloumbus", "20th Century Fox", "4/5"));
+        dVD.add(new DVD("Home Alone 3", "12-12-1997", "PG", "Raja Gosnell", "20th Century Fox", "3/5"));
+	
+	
+	
+	FileWriter fileWriter=new FileWriter("DVDData1");
+	PrintWriter printWriter=new PrintWriter(fileWriter);
+	
+
+	for(DVD dVDs:dVD) {
+		String dVDStr=dVDs.getTitle()+","+dVDs.getReleaseDate()+","+dVDs.getMpaaRating()+","+dVDs.getDirector()+","+dVDs.getStudio()+","+dVDs.getUserRating();
+		
+		printWriter.println(dVDStr);
+	}
+	
+	printWriter.flush();
+	
+	printWriter.close();
+
+	fileWriter.close();
+	
+	System.out.println("DVD Data Stored");
+}
+}

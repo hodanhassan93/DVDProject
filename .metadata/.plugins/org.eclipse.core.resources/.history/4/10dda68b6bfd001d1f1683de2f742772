@@ -1,0 +1,8 @@
+package com.hodan.presentation;
+
+public interface DVDUserInterface {
+
+	public void performMenu(int choice) throws Exception;
+
+	public void showMenu();
+}

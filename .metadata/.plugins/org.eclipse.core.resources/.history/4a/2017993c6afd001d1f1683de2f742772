@@ -1,0 +1,5 @@
+package com.hodan.dvd.persistence;
+
+public interface h {
+
+}

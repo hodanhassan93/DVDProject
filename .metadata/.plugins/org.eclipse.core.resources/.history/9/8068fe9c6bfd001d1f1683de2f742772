@@ -1,0 +1,116 @@
+package com.hodan.presentation;
+import java.util.LinkedList;
+import java.util.Scanner;
+import com.hodan.dvd.DVD;
+import com.hodan.service.DVDBusinessLogic;
+import com.hodan.service.DVDBusinessLogicImpl;
+
+
+public class DVDUserInterfaceImpl implements DVDUserInterface {
+	private DVDBusinessLogic businessLogic=new DVDBusinessLogicImpl();
+	
+	@Override
+	public void showMenu() {
+		System.out.println("1. List All DVD's");
+		System.out.println("2. Add New DVD");
+		System.out.println("3. Delete Existing DVD");
+		System.out.println("4. Edit The Details Of An Existing DVD");
+		System.out.println("5. Search for a DVD by Title");
+		System.out.println("6. Exit");
+
+	}
+
+	@Override
+	public void performMenu(int choice)throws Exception {
+		Scanner scanner=new Scanner(System.in);
+	switch (choice) {
+		case 1: 
+			LinkedList<DVD> dVD=businessLogic.getAllDVDs();
+			for(DVD dVDs:dVD) {
+				System.out.println(dVDs);
+			}
+			break;
+		case 2:
+			DVD dVDs=new DVD();
+			System.out.println("Enter The DVD Title : ");
+			dVDs.setTitle(scanner.next());
+			System.out.println("Enter DVD Release Date : ");
+			dVDs.setReleaseDate(scanner.next());
+			System.out.println("Enter DVD MPAA Rating : ");
+			dVDs.setMpaaRating(scanner.next());
+			System.out.println("Enter DVD Director : ");
+			dVDs.setDirector(scanner.next());
+			System.out.println("Enter DVD Studio : ");
+			dVDs.setStudio(scanner.next());
+			System.out.println("Enter DVD User Rating");
+			dVDs.setUserRating(scanner.next());
+			
+			boolean status=businessLogic.addDVD(dVDs);
+			
+			if(status)
+				System.out.println("DVD Added!");
+			else
+				System.out.println("DVD Not Added!");
+			break;
+		case 3:
+			System.out.println("Enter DVD Title to delete: ");
+			String title=scanner.next();
+			if(businessLogic.deleteDVD(title))
+				System.out.println("DVD Deleted");
+			else
+				System.out.println("DVD with Title "+title+" does not exist");
+			break;
+			
+		case 4:	
+			  System.out.println("Enter the DVD Title to edit: ");
+              String editTitle = scanner.nextLine();
+              DVD existingDVD = businessLogic.getDVDByTitle(editTitle);
+              if (existingDVD == null) {
+                  System.out.println("DVD with Title " + editTitle + " does not exist");
+              } else {
+                  System.out.println("Enter the new DVD Title: ");
+                  existingDVD.setTitle(scanner.nextLine());
+                  System.out.println("Enter the new DVD Release Date: ");
+                  existingDVD.setReleaseDate(scanner.nextLine());
+                  System.out.println("Enter the new DVD MPAA Rating: ");
+                  existingDVD.setMpaaRating(scanner.nextLine());
+                  System.out.println("Enter the new DVD Director: ");
+                  existingDVD.setDirector(scanner.nextLine());
+                  System.out.println("Enter the new DVD Studio: ");
+                  existingDVD.setStudio(scanner.nextLine());
+                  System.out.println("Enter the new DVD User Rating: ");
+                  existingDVD.setUserRating(scanner.nextLine());
+
+                  boolean editStatus = businessLogic.editDVD(editTitle, existingDVD);
+
+                  if (editStatus)
+                      System.out.println("DVD Updated!");
+                  else
+                      System.out.println("DVD Not Updated!");
+              }
+              break;
+              
+		case 5: 
+		    System.out.println("Enter the DVD Title to search: ");
+            String searchTitle = scanner.nextLine();
+            DVD foundDVD = businessLogic.getDVDByTitle(searchTitle);
+            if (foundDVD != null) {
+                System.out.println("DVD Found:");
+                System.out.println(foundDVD);
+            } else {
+                System.out.println("DVD with Title " + searchTitle + " not found");
+            }
+            break;
+            
+		case 6:
+			businessLogic.saveAllDVDs();
+			System.out.println("Thanks for Using Our System");
+			System.exit(0);
+			
+		default:
+			System.out.println("Invalid Choice");
+		}
+
+	}
+
+}

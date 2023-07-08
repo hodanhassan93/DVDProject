@@ -1,0 +1,35 @@
+package com.hodan.fileio;
+
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.util.LinkedList;
+
+public class DataFile {
+	public static void main(String[] args) throws Exception {
+		LinkedList<DVD> dVD=new LinkedList<DVD>();
+
+        dVD.add(new DVD("Movie 1", "2022-05-01", "PG", "Director 1", "Studio 1", "Note 1"));
+        dVD.add(new DVD("Movie 2", "2023-02-15", "PG-13", "Director 2", "Studio 2", "Note 2"));
+        dVD.add(new DVD("Movie 3", "2023-07-10", "PG", "Director 3", "Studio 3", "Note 3"));
+	
+	
+	
+	FileWriter fileWriter=new FileWriter("DVDData");
+	PrintWriter printWriter=new PrintWriter(fileWriter);
+	
+
+	for(DVD dVDs:dVD) {
+		String dVDStr=dVDs.getTitle()+","+dVDs.getReleaseDate()+","+dVDs.getMpaaRating()+","+dVDs.getDirector()+","+dVDs.getStudio()+","+dVDs.getUserRating();
+		
+		printWriter.println(dVDStr);
+	}
+	
+	printWriter.flush();
+	
+	printWriter.close();
+
+	fileWriter.close();
+	
+	System.out.println("DVD Data Stored");
+}
+}
